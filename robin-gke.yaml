@@ -1,0 +1,31 @@
+apiVersion: robin.io/v1alpha1
+kind: RobinCluster
+metadata:
+  name: robin
+  namespace: robinio
+spec:
+  image_robin: robinsys/robin-storage:5.1.1
+  storage_disks: count=1,type=pd-ssd,size=200
+  k8s_provider: gke
+  host_type: gcp
+  # kms: robin/google
+  # kms_keyring: <keyring_name>
+  
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: robin-master-lb
+  namespace: robinio
+spec:
+  ports:
+  - name: rcmserver
+    port: 29451
+    protocol: TCP
+    targetPort: 29451
+  selector:
+    robinrole: master
+  type: LoadBalancer
+
+---

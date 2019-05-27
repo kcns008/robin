@@ -1,0 +1,11 @@
+apiVersion: robin.io/v1alpha1
+kind: RobinCluster
+metadata:
+  name: robin
+  namespace: robinio
+spec:
+  host_type: physical
+  image_robin: robinsys/robin-storage:5.1.1
+  k8s_provider: openshift
+
+---

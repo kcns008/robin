@@ -1,0 +1,33 @@
+apiVersion: robin.io/v1alpha1
+kind: RobinCluster
+metadata:
+  name: robin
+  namespace: robinio
+spec:
+  host_type: ec2
+  image_robin: robinsys/robin-storage:5.1.1
+  storage_disks: count=1,type=gp2,size=200
+  k8s_provider: openshift
+  options:
+    access_key: ACCESS_KEY
+    secret_key: SECRET_KEY
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: robin-master-lb
+  namespace: robinio
+spec:
+  ports:
+  - name: rcmserver
+    port: 29451
+    protocol: TCP
+    targetPort: 29451
+  selector:
+    robinrole: master
+  type: LoadBalancer
+  
+---
+
